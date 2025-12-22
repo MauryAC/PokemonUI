@@ -71,7 +71,10 @@
             return;
         }
 
-        AuthState.Login(result.User!.Email!);
+        AuthState.Login(
+            result.User!.Email!,
+            result.Token!
+        );
 
 
 

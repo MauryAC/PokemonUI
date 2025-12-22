@@ -1,0 +1,108 @@
+﻿@page "/pokemon"
+@using PokemonUI.Models.Pokemon
+@inject PokemonService PokemonService
+
+<input class="form-control"
+       @bind="pokemonName"
+       placeholder="Nombre del Pokémon" />
+
+<button class="btn btn-primary mt-2"
+        @onclick="SearchPokemon"
+        disabled="@isLoading">
+    @if (isLoading)
+    {
+        <div class="alert alert-info mt-3">
+            🔍 Buscando Pokémon...
+        </div>
+    }
+    else
+    {
+        <span>Buscar</span>
+    }
+</button>
+
+@if (!string.IsNullOrEmpty(errorMessage))
+{
+    <div class="alert alert-warning mt-3">
+        @errorMessage
+    </div>
+}
+
+@if (pokemon != null)
+{
+    <div class="card pokemon-card mt-4 shadow-lg" style="max-width: 400px;">
+        <div class="card-header text-center fw-bold bg-danger text-white">
+            @pokemon.Name.ToUpper()
+        </div>
+
+        <div class="card-body text-center">
+            <img src="@pokemon.ImageUrl"
+                 class="img-fluid mb-3"
+                 style="max-height: 180px;" />
+
+            <p class="card-text">
+                <strong>Poder:</strong> @pokemon.Power
+            </p>
+
+            <p class="card-text">
+                <span class="badge bg-warning text-dark">
+                    @pokemon.Category
+                </span>
+            </p>
+
+            <p class="card-text">
+                <strong>Naturaleza:</strong> @pokemon.Nature
+            </p>
+
+            <p class="text-muted small mt-3">
+                @pokemon.Description
+            </p>
+        </div>
+    </div>
+}
+
+@code {
+    private string pokemonName = string.Empty;
+    private PokemonResponse? pokemon;
+    private bool isLoading = false;
+    private string? errorMessage;
+
+    private async Task SearchPokemon()
+    {
+        errorMessage = null;
+        pokemon = null;
+
+        pokemonName = pokemonName.Trim();
+
+        if (string.IsNullOrWhiteSpace(pokemonName))
+        {
+            errorMessage = "Ingresa el nombre de un Pokémon.";
+            return;
+        }
+
+        isLoading = true;
+
+        try
+        {
+            pokemon = await PokemonService.GetPokemonByNameAsync(pokemonName);
+
+            if (pokemon == null)
+            {
+                errorMessage = $"No se encontró el Pokémon \"{pokemonName}\".";
+            }
+        }
+        catch (UnauthorizedAccessException)
+        {
+            errorMessage = "Tu sesión expiró. Inicia sesión nuevamente.";
+        }
+        catch (Exception)
+        {
+            errorMessage = "Ocurrió un error al buscar el Pokémon.";
+        }
+        finally
+        {
+            isLoading = false;
+        }
+    }
+}
+
