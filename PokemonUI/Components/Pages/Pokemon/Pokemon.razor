@@ -1,4 +1,5 @@
 ﻿@page "/pokemon"
+@page "/pokemon/{PokemonName}"
 @using PokemonUI.Models.Pokemon
 @inject PokemonService PokemonService
 
@@ -62,10 +63,22 @@
 }
 
 @code {
+    [Parameter]
+    public string? PokemonName { get; set; }
+
     private string pokemonName = string.Empty;
     private PokemonResponse? pokemon;
     private bool isLoading = false;
     private string? errorMessage;
+
+    protected override async Task OnParametersSetAsync()
+    {
+        if (!string.IsNullOrWhiteSpace(PokemonName))
+        {
+            pokemonName = PokemonName;
+            await SearchPokemon();
+        }
+    }
 
     private async Task SearchPokemon()
     {

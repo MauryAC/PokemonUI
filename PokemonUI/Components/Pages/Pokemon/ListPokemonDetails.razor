@@ -1,6 +1,7 @@
 ﻿@page "/pokemon-list"
 @using PokemonUI.Models.Pokemon
 @inject PokemonService PokemonService
+@inject NavigationManager Navigation
 
 <div class="container">
 
@@ -45,7 +46,9 @@
                     <div class="card h-100 shadow border-danger">
 
                         
-                        <div class="card-header bg-danger text-white text-center p-2">
+                        <div class="card-header bg-danger text-white text-center p-2" 
+                             style="cursor: pointer;"
+                             @onclick="() => NavigateToPokemon(pokemon.Name)">
                             <strong class="text-capitalize">
                                 @pokemon.Name
                             </strong>
@@ -135,5 +138,10 @@
             offset = (pageNumber - 1) * limit;
             await LoadPokemons();
         }
+    }
+
+    private void NavigateToPokemon(string pokemonName)
+    {
+        Navigation.NavigateTo($"/pokemon/{pokemonName}");
     }
 }
