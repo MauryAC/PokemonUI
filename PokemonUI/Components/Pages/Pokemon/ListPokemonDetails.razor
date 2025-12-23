@@ -1,0 +1,139 @@
+﻿@page "/pokemon-list"
+@using PokemonUI.Models.Pokemon
+@inject PokemonService PokemonService
+
+<div class="container">
+
+    <h3 class="text-center mb-4">📟 Pokédex</h3>
+
+    <div class="text-center mb-3">
+        <button class="btn btn-danger me-2"
+                @onclick="PreviousPage"
+                disabled="@isLoading || pageNumber == 1">
+            ⬅ Anterior
+        </button>
+
+        <span class="mx-3 fw-bold">
+            Página @pageNumber
+        </span>
+
+        <button class="btn btn-danger"
+                @onclick="NextPage"
+                disabled="@isLoading">
+            Siguiente ➡
+        </button>
+    </div>
+
+    @if (isLoading)
+    {
+        <p class="text-center">🔄 Cargando Pokémon...</p>
+    }
+
+    @if (!string.IsNullOrEmpty(errorMessage))
+    {
+        <div class="alert alert-danger text-center">
+            @errorMessage
+        </div>
+    }
+
+    @if (pokemons.Any())
+    {
+        <div class="row">
+            @foreach (var pokemon in pokemons)
+            {
+                <div class="col-md-3 col-sm-6 mb-4">
+                    <div class="card h-100 shadow border-danger">
+
+                        
+                        <div class="card-header bg-danger text-white text-center p-2">
+                            <strong class="text-capitalize">
+                                @pokemon.Name
+                            </strong>
+                            <div class="small">
+                                #@pokemon.Id.ToString("D3")
+                            </div>
+                        </div>
+
+                        <div class="card-body text-center bg-light">
+                            <img src="@pokemon.ImageUrl"
+                                 class="img-fluid mb-2"
+                                 style="max-height: 120px;" />
+
+                            <div class="mb-2">
+                                <span class="badge bg-warning text-dark me-1">
+                                    @pokemon.Category
+                                </span>
+
+                                <span class="badge bg-info text-dark">
+                                    @pokemon.Nature
+                                </span>
+                            </div>
+
+                            <p class="small mb-0">
+                                Poder: <strong>@pokemon.Power</strong>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    }
+
+</div>
+
+@code {
+
+    private List<PokemonResponse> pokemons = new();
+
+    private bool isLoading = false;
+    private string? errorMessage;
+
+    private int limit = 12;
+    private int offset = 0;
+    private int pageNumber = 1;
+
+    protected override async Task OnInitializedAsync()
+    {
+        await LoadPokemons();
+    }
+
+    private async Task LoadPokemons()
+    {
+        isLoading = true;
+        errorMessage = null;
+
+        try
+        {
+            pokemons = await PokemonService.GetAllPokemonsAsync(limit, offset);
+        }
+        catch (UnauthorizedAccessException)
+        {
+            errorMessage = "Tu sesión expiró. Inicia sesión nuevamente.";
+        }
+        catch (Exception)
+        {
+            errorMessage = "Error al cargar la Pokédex.";
+        }
+        finally
+        {
+            isLoading = false;
+        }
+    }
+
+    private async Task NextPage()
+    {
+        pageNumber++;
+        offset = (pageNumber - 1) * limit;
+        await LoadPokemons();
+    }
+
+    private async Task PreviousPage()
+    {
+        if (pageNumber > 1)
+        {
+            pageNumber--;
+            offset = (pageNumber - 1) * limit;
+            await LoadPokemons();
+        }
+    }
+}
