@@ -40,4 +40,27 @@ public class PokemonService
 
         return await response.Content.ReadFromJsonAsync<PokemonResponse>();
     }
+
+    public async Task<List<PokemonResponse>> GetAllPokemonsAsync(int limit = 20, int offset = 0)
+    {
+        var token = _authState.Token;
+        if (string.IsNullOrEmpty(token))
+            throw new UnauthorizedAccessException();
+
+        _http.DefaultRequestHeaders.Authorization =
+            new AuthenticationHeaderValue("Bearer", token);
+
+        var response = await _http.GetAsync(
+            $"api/pokemon?limit={limit}&offset={offset}"
+        );
+
+        if (response.StatusCode == HttpStatusCode.Unauthorized)
+            throw new UnauthorizedAccessException();
+
+        if (!response.IsSuccessStatusCode)
+            return new List<PokemonResponse>();
+
+        return await response.Content.ReadFromJsonAsync<List<PokemonResponse>>()
+               ?? new List<PokemonResponse>();
+    }
 }
