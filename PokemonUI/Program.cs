@@ -17,6 +17,8 @@ builder.Services.AddHttpClient("PokemonAPI", client =>
 });
 builder.Services.AddScoped<AuthService>();
 builder.Services.AddScoped<AuthState>();
+builder.Services.AddScoped<PokemonService>();
+
 
 
 var app = builder.Build();

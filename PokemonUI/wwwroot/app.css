@@ -181,3 +181,30 @@ main {
 body {
     background-color: hotpink !important;
 }
+
+.pokemon-card {
+    border-radius: 16px;
+    border: 3px solid #ffcb05; /* amarillo Pokémon */
+    background: linear-gradient(180deg, #ffffff, #f8f9fa);
+}
+
+    .pokemon-card img {
+        background-color: #f1f1f1;
+        border-radius: 12px;
+        padding: 10px;
+    }
+
+    .pokemon-card .card-header {
+        border-top-left-radius: 13px;
+        border-top-right-radius: 13px;
+        letter-spacing: 1px;
+    }
+
+.pokemon-card {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+  /*  .pokemon-card:hover {
+        transform: scale(1.03);
+        box-shadow: 0 12px 30px rgba(0,0,0,0.25);
+    }*/
