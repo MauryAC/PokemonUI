@@ -1,0 +1,74 @@
+﻿@page "/register"
+@inject AuthService AuthService
+@inject NavigationManager Navigation
+
+<div class="container d-flex justify-content-center align-items-center"
+     style="min-height: 100vh">
+
+    <div class="card shadow-lg p-4" style="width: 100%; max-width: 400px;">
+        <h4 class="text-center mb-4 fw-bold">Crear cuenta</h4>
+
+        <EditForm Model="@registerRequest"
+                  OnValidSubmit="HandleRegister"
+                  FormName="registerForm">
+
+            <DataAnnotationsValidator />
+            <ValidationSummary class="text-danger small" />
+
+            <div class="mb-3">
+                <label class="form-label">Correo electrónico</label>
+                <InputText class="form-control"
+                           placeholder="ejemplo@correo.com"
+                           @bind-Value="registerRequest.Email" />
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Contraseña</label>
+                <InputText class="form-control"
+                           type="password"
+                           placeholder="********"
+                           @bind-Value="registerRequest.Password" />
+            </div>
+
+            <button class="btn btn-success w-100 mt-2" type="submit">
+                Crear cuenta
+            </button>
+        </EditForm>
+
+        @if (!string.IsNullOrEmpty(errorMessage))
+        {
+            <div class="alert alert-danger mt-3 text-center">
+                @errorMessage
+            </div>
+        }
+
+        <hr />
+
+        <p class="text-center mb-0">
+            ¿Ya tienes cuenta?
+            <a class="fw-semibold" href="/login">
+                Inicia sesión
+            </a>
+        </p>
+    </div>
+</div>
+
+@code {
+    private RegisterRequest registerRequest = new();
+    private string? errorMessage;
+
+    private async Task HandleRegister()
+    {
+        errorMessage = null;
+
+        var result = await AuthService.RegisterAsync(registerRequest);
+
+        if (!result.Success)
+        {
+            errorMessage = result.Message;
+            return;
+        }
+
+        Navigation.NavigateTo("/login");
+    }
+}

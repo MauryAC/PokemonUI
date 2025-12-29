@@ -1,4 +1,4 @@
-html, body {
+﻿html, body {
     font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
 }
 
@@ -48,4 +48,136 @@ h1:focus {
 
 .darker-border-checkbox.form-check-input {
     border-color: #929292;
+}
+
+.bi-box-arrow-in-right-nav-menu {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='white' viewBox='0 0 16 16'%3E%3Cpath d='M6 3a1 1 0 0 1 1-1h5a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H7a1 1 0 0 1-1-1v-1h1v1h6a1 1 0 0 0 1-1V4a1 1 0 0 0-1-1H7v1H6V3z'/%3E%3Cpath d='M.146 8.354a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L1.707 7.5H10.5a.5.5 0 0 1 0 1H1.707l2.147 2.146a.5.5 0 0 1-.708.708l-3-3z'/%3E%3C/svg%3E");
+}
+/* ===============================
+   🎮 POKÉMON THEME – GLOBAL
+================================ */
+
+body {
+    background-color: #f5f5f5;
+}
+
+/* ===============================
+   ⚡ NAVBAR SUPERIOR
+================================ */
+
+.pokemon-navbar {
+    background: linear-gradient(90deg, #CC0000, #FFCB05) !important;
+    border-bottom: 5px solid #3B4CCA;
+    height: 60px;
+    display: flex;
+    align-items: center;
+}
+
+.pokemon-logo {
+    font-weight: 900;
+    font-size: 1.4rem;
+    color: #3B4CCA !important;
+    text-shadow: 2px 2px #fff;
+    letter-spacing: 1px;
+}
+
+/* ===============================
+   📁 SIDEBAR
+================================ */
+
+.sidebar {
+    background-color: #CC0000 !important;
+    border-right: 6px solid #3B4CCA;
+}
+
+.nav-scrollable {
+    background-color: #CC0000 !important;
+}
+
+/* ===============================
+   📌 LINKS DEL NAV
+================================ */
+
+.nav-link {
+    color: white !important;
+    font-weight: bold;
+    font-size: 1rem;
+    margin: 6px 0;
+    border-radius: 12px;
+    padding: 10px 14px;
+    transition: all 0.2s ease-in-out;
+}
+
+    .nav-link:hover {
+        background-color: #FFCB05 !important;
+        color: #3B4CCA !important;
+        transform: scale(1.05);
+    }
+
+    .nav-link.active {
+        background-color: #FFCB05 !important;
+        color: #3B4CCA !important;
+    }
+
+/* ===============================
+   📄 CONTENIDO PRINCIPAL
+================================ */
+
+.pokemon-card {
+    background: #ffffff;
+    border-radius: 22px;
+    border: 5px solid #FFCB05;
+    box-shadow: 0 10px 0 #3B4CCA;
+    padding: 24px;
+    margin-top: 16px;
+}
+
+/* ===============================
+   🔐 BOTONES
+================================ */
+
+.btn-outline {
+    border: 2px solid #3B4CCA !important;
+    color: #3B4CCA !important;
+    font-weight: bold;
+    border-radius: 20px;
+}
+
+    .btn-outline:hover {
+        background-color: #FFCB05 !important;
+        color: #3B4CCA !important;
+    }
+
+/* ===============================
+   👤 USUARIO LOGUEADO
+================================ */
+
+.user-email {
+    color: #3B4CCA;
+    font-weight: bold;
+}
+
+/* ===============================
+   🎨 ANIMACIÓN SUAVE
+================================ */
+
+* {
+    transition: background-color 0.2s ease, transform 0.2s ease;
+}
+
+
+.top-row.pokemon-navbar {
+    background: linear-gradient(90deg, #CC0000, #FFCB05) !important;
+    border-bottom: 5px solid #3B4CCA;
+}
+
+.top-row {
+    min-height: 60px;
+}
+
+main {
+    background-color: #f5f5f5;
+}
+body {
+    background-color: hotpink !important;
 }
